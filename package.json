@@ -4,7 +4,7 @@
   "description": "An streaming platfrom",
   "main": "server.js",
   "scripts": {
-    "dev": "ts-node-dev --poll ./src/server.ts",
+    "dev": "ts-node-dev --poll server.ts",
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node dist/server.js"
   },
