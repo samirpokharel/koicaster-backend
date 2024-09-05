@@ -1,0 +1,15 @@
+{
+  "name": "koicaster",
+  "version": "1.0.0",
+  "description": "An streaming platfrom",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "streaming",
+    "koicaster"
+  ],
+  "author": "sameer pokhrel",
+  "license": "ISC"
+}
