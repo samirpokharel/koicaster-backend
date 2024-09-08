@@ -1,5 +1,3 @@
-import { NextFunction,Request, Response } from "express";
-
 export enum HTTPStatusCode {
   Ok = 200,
   Created = 201,
@@ -26,14 +24,3 @@ export enum HTTPStatusCode {
   ServiceUnavailable = 503,
   GatewayTiemout = 504,
 }
-
-const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  // TODO:
-  // res.status(HTTPStatusCode.Unauthorized).send();
-};
-export default errorHandler;

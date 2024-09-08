@@ -12,6 +12,9 @@ import session from "express-session";
 import passport from "passport";
 import { setupPassport } from "./config/passport";
 import AuthService from "./feature/authentication/auth.service";
+import { ErrorMiddleware } from "./middleware/error.middleware";
+import { AppError } from "./helper/errors";
+import { HTTPStatusCode } from "./config/constant";
 
 interface ServerOption {
   port: number;
@@ -66,8 +69,19 @@ export class Server {
     // Routes
     this.app.use(this.apiPrefix, this.routes);
 
+    this.app.get("/", (req, res, next) => {
+      return res.status(HTTPStatusCode.Ok).send({
+        status: "Working",
+        message: "Welcome to Koicaster!",
+      });
+    });
+
+    this.routes.all("*", (req, res, next) => {
+      next(AppError.notFound(`Cant find ${req.originalUrl} on this server!`));
+    });
+
     // Error Handler
-    // TODO: setup error handler
+    this.routes.use(ErrorMiddleware.handleError);
 
     if (this.certificate) {
       const httpsServer = createServer(this.certificate, this.app);
