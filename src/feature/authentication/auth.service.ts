@@ -11,7 +11,9 @@ export default class AuthService {
     return await this.prismaClient.user.create({ data: user });
   };
   findUser = async (id: string): Promise<User | null> => {
-    return await this.prismaClient.user.findUnique({ where: { googleId: id } });
+    return await this.prismaClient.user.findUnique({
+      where: { id: Number(id) },
+    });
   };
   findOrCreateUser = async (
     email: string,

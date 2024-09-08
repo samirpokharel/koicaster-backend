@@ -2,7 +2,9 @@ import { type Request, type Response, type NextFunction } from "express";
 import passport from "passport";
 
 export default class AuthController {
-  // TODO: implement
+  me = (req: Request, res: Response, next: NextFunction): void => {
+    res.status(200).send({ success: true, data: req.user });
+  };
   googleLogin = (req: Request, res: Response, next: NextFunction): void => {
     passport.authenticate("google", { scope: ["profile", "email"] })(req, res);
   };
