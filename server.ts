@@ -1,4 +1,19 @@
-import app from "./src/app";
+import { AppRoutes } from "./src/routes";
+import { Server } from "./src/server_service";
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+(() => {
+  initialize();
+})();
+
+function initialize(): void {
+  new Server({
+    apiPrefix: "",
+    port: Number(process.env.port) || 5000,
+    routes: AppRoutes.routes,
+    corsOption: {
+      origin: "http://localhost:3000",
+      methods: "GET,POST,PUT,DELETE",
+      credentials: true,
+    },
+  }).start();
+}
