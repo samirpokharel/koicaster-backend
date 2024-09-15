@@ -69,7 +69,7 @@ export class Server {
     this.app.get("/", (req, res, next) => {
           return res.status(HTTPStatusCode.Ok).send({
             status: "Working",
-            message: "Welcome to Koicaster!",
+            message: "Welcome to Koicaster! API's are working",
           });
         });
     // Routes
