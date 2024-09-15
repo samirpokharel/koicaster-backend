@@ -1,22 +1,22 @@
 import {
   Strategy,
-  StrategyOptions,
+  type StrategyOptions,
   VerifyCallback,
 } from "passport-google-oauth20";
 import passport, { Profile } from "passport";
 import AuthService from "../feature/authentication/auth.service";
 
-const options: StrategyOptions = {
-  clientID: process.env.CLIENT_ID!,
-  clientSecret: process.env.CLIENT_SECRET!,
-  passReqToCallback: undefined,
-  callbackURL: `/auth/google/callback`,
-};
+// const options: StrategyOptions = ;
 
 export const setupPassport = (authService: AuthService): void => {
   passport.use(
     new Strategy(
-      options,
+      {
+        clientID: process.env.CLIENT_ID!,
+        clientSecret: process.env.CLIENT_SECRET!,
+        passReqToCallback: undefined,
+        callbackURL: `/auth/google/callback`,
+      },
       async (
         accessTOken: String,
         refreshTOken: String,

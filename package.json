@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --poll server.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/server.js"
+    "start": "node dist/server.js"
   },
   "keywords": [
     "streaming",
