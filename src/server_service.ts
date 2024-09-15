@@ -66,15 +66,14 @@ export class Server {
 
     setupPassport(new AuthService());
 
+    this.app.get("/", (req, res, next) => {
+          return res.status(HTTPStatusCode.Ok).send({
+            status: "Working",
+            message: "Welcome to Koicaster!",
+          });
+        });
     // Routes
     this.app.use(this.apiPrefix, this.routes);
-
-    this.app.get("/", (req, res, next) => {
-      return res.status(HTTPStatusCode.Ok).send({
-        status: "Working",
-        message: "Welcome to Koicaster!",
-      });
-    });
 
     this.routes.all("*", (req, res, next) => {
       next(AppError.notFound(`Cant find ${req.originalUrl} on this server!`));
