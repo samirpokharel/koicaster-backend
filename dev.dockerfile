@@ -5,4 +5,4 @@ RUN yarn install
 COPY . .
 EXPOSE 5000
 RUN yarn prisma generate
-CMD ["yarn", "start"]
+CMD ["yarn", "dev"]

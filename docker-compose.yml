@@ -2,7 +2,9 @@ version: "3.9"
 services:
   backend:
     container_name: koicaster
-    build: ./
+    build:
+      context: ./
+      dockerfile: dev.dockerfile
     depends_on:
       - db
     ports:
@@ -11,10 +13,10 @@ services:
       - DATABASE_URL=postgresql://${DEV_POSTGRES_USER}:${DEV_POSTGRES_PASSWORD}@db/${DEV_POSTGRES_DB}
     volumes:
       - ./:/app
-      - backend_node_modules:/app/node_modules
+      - ./node_modules:/app/node_modules
     env_file:
       - ./.env
-      
+
   pgadmin:
     container_name: pg_admin
     image: dpage/pgadmin4
@@ -43,5 +45,5 @@ services:
       - koicaster-postgress-data:/var/lib/postgresql/data
 
 volumes:
-  backend_node_modules:
+  # backend_node_modules:
   koicaster-postgress-data:
