@@ -21,12 +21,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: build and push koicaster applicationI
-        id: build-push-api
+      - name: build and push koicaster application
+        id: build-push-koicaster
         uses: docker/build-push-action@v3
         with:
           context: .
           file: Dockerfile
           push: true
-          tags: docker push sameerpokhrel/koicaster:latest
+          tags: sameerpokhrel/koicaster:latest
 
