@@ -12,7 +12,7 @@ export default class AuthService {
   };
   findUser = async (id: string): Promise<User | null> => {
     return await this.prismaClient.user.findUnique({
-      where: { id: Number(id) },
+      where: { id: id },
     });
   };
   findOrCreateUser = async (

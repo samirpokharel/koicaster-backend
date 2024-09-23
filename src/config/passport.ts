@@ -15,7 +15,7 @@ export const setupPassport = (authService: AuthService): void => {
         clientID: process.env.CLIENT_ID!,
         clientSecret: process.env.CLIENT_SECRET!,
         passReqToCallback: undefined,
-        callbackURL: `/auth/google/callback`,
+        callbackURL: `/api/auth/google/callback`,
       },
       async (
         accessTOken: String,

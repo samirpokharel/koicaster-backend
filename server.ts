@@ -7,7 +7,7 @@ import { Server } from "./src/server_service";
 
 function initialize(): void {
   new Server({
-    apiPrefix: "",
+    apiPrefix: "/api",
     port: Number(process.env.port) || 5000,
     routes: AppRoutes.routes,
     corsOption: {

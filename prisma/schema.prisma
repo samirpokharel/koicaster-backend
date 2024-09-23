@@ -8,9 +8,25 @@ datasource db {
 }
 
 model User {
-  id         Int    @id @default(autoincrement())
-  email      String @unique
-  googleId   String? @unique
+  id         String   @id @default(cuid())
+  email      String   @unique
+  googleId   String?  @unique
   first_name String
   last_name  String
+  banner     Banner[]
+}
+
+model Banner {
+  id     String       @id @default(cuid())
+  userId String       @unique
+  name   String
+  user   User         @relation(fields: [userId], references: [id])
+  items  Banneritem[]
+}
+
+model Banneritem {
+  id       String @id @default(cuid())
+  bannerId String @unique
+  content  String
+  banner   Banner @relation(fields: [bannerId], references: [id])
 }
