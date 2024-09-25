@@ -42,4 +42,34 @@ export default class BannerService {
     if (!folderId) throw AppError.badRequest("Folder not provided");
     return await this.prismaClient.banner.delete({ where: { id: folderId } });
   };
+
+  getAllBanners = async (bannerId: string): Promise<Banneritem[]> => {
+    let folders = await this.prismaClient.banneritem.findMany({
+      where: { bannerId: bannerId },
+    });
+    return folders;
+  };
+
+  createBanner = async (
+    bannerItem: Omit<Banneritem, "id">
+  ): Promise<Banneritem> => {
+    return await this.prismaClient.banneritem.create({ data: bannerItem });
+  };
+
+  updateBanner = async (
+    bannerItem: Omit<Banneritem, "id">,
+    bannerItemId: string
+  ): Promise<Banneritem> => {
+    return await this.prismaClient.banneritem.update({
+      where: { id: bannerItemId },
+      data: { ...bannerItem },
+    });
+  };
+
+  deleteBanner = async (bannerItemId: string): Promise<Banneritem> => {
+    if (!bannerItemId) throw AppError.badRequest("Banner not provided");
+    return await this.prismaClient.banneritem.delete({
+      where: { id: bannerItemId },
+    });
+  };
 }

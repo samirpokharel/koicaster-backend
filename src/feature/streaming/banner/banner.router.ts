@@ -15,6 +15,17 @@ export default class BannerRouter {
       .route("/:id")
       .put(protect, bannerController.updateFolder)
       .delete(protect, bannerController.deleteFolder);
+
+    router
+      .route("/:bannerId/bannerItems")
+      .get(protect, bannerController.getAllBanners)
+      .post(protect, bannerController.createBannerItem);
+
+    router
+      .route("/:bannerId/bannerItems/:bannerItemId")
+      .put(protect, bannerController.updateBanner)
+      .delete(protect, bannerController.deleteBanner);
+
     return router;
   }
 }
