@@ -3,7 +3,7 @@ import BannerService from "./banner.services";
 import asyncHandler from "../../../middleware/async";
 import * as yup from "yup";
 import { AppError } from "../../../helper/errors";
-import { happyResponse  } from "../../../helper/happy-response";
+import { happyResponse } from "../../../helper/happy-response";
 
 declare global {
   namespace Express {
@@ -41,6 +41,7 @@ export default class BannerController {
       await folderSchema.validate(req.body);
       if (!req.user) throw AppError.forbidden("Unauthenticated");
       req.body.userId = req.user?.id;
+      delete req.body.id;
       const folder = await this.bannerService.createFolder(req.body);
       res.status(200).send(happyResponse(folder));
     }
@@ -49,7 +50,7 @@ export default class BannerController {
   updateFolder = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       if (!req.user) throw AppError.forbidden("Unauthenticated");
-      await folderSchema.validate(req.body);
+      await folderSchema.validate(req.body, { strict: true });
 
       if (!req.params.id) throw AppError.badRequest("Folder ID is required");
 
