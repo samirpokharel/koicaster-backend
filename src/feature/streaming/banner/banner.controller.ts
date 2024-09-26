@@ -20,6 +20,7 @@ declare global {
 const folderSchema = yup
   .object({
     name: yup.string().required("Folder name is required"),
+    items: yup.array(),
   })
   .noUnknown(true)
   .required();
@@ -127,12 +128,30 @@ export default class BannerController {
 
   createFolder = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      await folderSchema.validate(req.body);
+      await folderSchema.validate(req.body, { stripUnknown: false });
       if (!req.user) throw AppError.forbidden("Unauthenticated");
       req.body.userId = req.user?.id;
-      delete req.body.id;
-      const folder = await this.bannerService.createFolder(req.body);
-      res.status(200).send(happyResponse(folder));
+      const requestBodyCopy = { ...req.body };
+      let response;
+      delete requestBodyCopy.id;
+      delete requestBodyCopy.items;
+      const folder = await this.bannerService.createFolder(requestBodyCopy);
+
+
+      // it's used for dublicate folder. when supplied with items.
+      if (req.body.items) {
+        const modifiedItems = req.body.items.map((item: any) => {
+          const { id, ...rest } = item;
+          return { ...rest, bannerId: folder.id };
+        });
+        const items = await this.bannerService.insertMultipleBanner(
+          modifiedItems
+        );
+        console.log(items);
+        response = { ...folder, items };
+      }
+
+      res.status(200).send(happyResponse(response));
     }
   );
 
@@ -141,7 +160,7 @@ export default class BannerController {
       if (!req.user) throw AppError.forbidden("Unauthenticated");
       await folderSchema.validate(req.body, {
         strict: true,
-        stripUnknown: false,
+        stripUnknown: true,
       });
 
       if (!req.params.id) throw AppError.badRequest("Folder ID is required");
