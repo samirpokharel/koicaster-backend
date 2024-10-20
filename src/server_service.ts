@@ -46,7 +46,8 @@ export class Server {
   }
 
   async start(): Promise<void> {
-    dotenv.config();
+    // dotenv.config();
+    // console.log(process.env)
 
     // Middlewares
     this.app.use(

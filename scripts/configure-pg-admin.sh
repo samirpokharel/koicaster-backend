@@ -1,6 +1,4 @@
 #!/bin/bash
-source .env
-
 echo '
 {
     "Servers": {
