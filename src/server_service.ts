@@ -16,6 +16,9 @@ import { ErrorMiddleware } from "./middleware/error.middleware";
 import { AppError } from "./helper/errors";
 import { HTTPStatusCode } from "./config/constant";
 
+import ConnectPg from "connect-pg-simple";
+const pgSession = ConnectPg(session);
+
 interface ServerOption {
   port: number;
   routes: Router;
@@ -52,6 +55,10 @@ export class Server {
     // Middlewares
     this.app.use(
       session({
+        store: new pgSession({
+          conString: process.env.DATABASE_URL,
+          tableName: "Session"
+        }),
         secret: process.env.SESSION_SECRET!,
         resave: false,
         saveUninitialized: true,
@@ -68,11 +75,11 @@ export class Server {
     setupPassport(new AuthService());
 
     this.app.get("/", (req, res, next) => {
-          return res.status(HTTPStatusCode.Ok).send({
-            status: "Working",
-            message: "Welcome to Koicaster Backend. API's are working ",
-          });
-        });
+      return res.status(HTTPStatusCode.Ok).send({
+        status: "Working",
+        message: "Welcome to Koicaster Backend. API's are working ",
+      });
+    });
     // Routes
     this.app.use(this.apiPrefix, this.routes);
 

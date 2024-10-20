@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Session {
+  sid    String   @id @db.VarChar
+  sess   Json
+  expire DateTime @db.Timestamp(6)
+}
+
 model User {
   id         String   @id @default(cuid())
   email      String   @unique
@@ -19,7 +25,7 @@ model User {
 
 model Banner {
   id     String       @id @default(cuid())
-  userId String       @unique
+  userId String
   name   String
   user   User         @relation(fields: [userId], references: [id])
   items  Banneritem[]
@@ -27,7 +33,7 @@ model Banner {
 
 model Banneritem {
   id       String @id @default(cuid())
-  bannerId String @unique
+  bannerId String
   content  String
   banner   Banner @relation(fields: [bannerId], references: [id])
 }
